@@ -16,14 +16,14 @@ let generateIds input =
         hasKey((new System.Random(x)).Next())
     )
     dictionary
-	
+
 let createResponse data =
     let response = new HttpResponseMessage()
     response.Content <- new StringContent(data)
     response.StatusCode <- HttpStatusCode.OK
     response.Content.Headers.ContentType <- MediaTypeHeaderValue("application/json")
     response
-	
+
 let Run (req: HttpRequestMessage) =
     req.GetQueryNameValuePairs()
     |> Seq.find(fun x -> x.Key.ToLowerInvariant() = "data")

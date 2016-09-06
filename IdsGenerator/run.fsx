@@ -1,6 +1,7 @@
-#r "Newtonsoft.Json.dll"
 open System
 open System.IO
+open System.Net
+open System.Net.Http.Headers
 open System.Collections.Generic
 open Newtonsoft.Json
 
@@ -16,7 +17,17 @@ let generateIds input =
     )
     dictionary
 	
-let Run (input: string, log: TraceWriter) =  
-    let data = generateIds input
-    let serializedData = JsonConvert.SerializeObject data
-    log.Info(sprintf "F# Queue trigger function processed: '%s'" serializedData)
+let createResponse data =
+    let response = new HttpResponseMessage()
+    response.Content <- new StringContent(data)
+    response.StatusCode <- HttpStatusCode.OK
+    response.Content.Headers.ContentType <- MediaTypeHeaderValue("application/json")
+    response
+	
+let Run (req: HttpRequestMessage) =
+    req.GetQueryNameValuePairs()
+    |> Seq.find(fun x -> x.Key.ToLowerInvariant() = "data")
+    |> fun x -> x.Value
+    |> generateIds
+    |> JsonConvert.SerializeObject
+    |> createResponse

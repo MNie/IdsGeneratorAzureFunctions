@@ -2,15 +2,15 @@
     "disabled": false,
     "bindings": [
         {
-			"type": "httpTrigger",
-			"name": "req",
-			"authLevel": "anonymous",
-			"direction": "in"
+		"type": "httpTrigger",
+		"name": "req",
+		"authLevel": "anonymous",
+		"direction": "in"
         },
-		{
-			"type": "http",
-			"name": "res",
-			"direction", "out"
-		}
+	{
+		"type": "http",
+		"name": "res",
+		"direction": "out"
+	}
     ]
 }
